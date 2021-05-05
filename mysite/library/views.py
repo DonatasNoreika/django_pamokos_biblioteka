@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from .models import Book, BookInstance, Author
+from django.views import generic
+
 
 # Create your views here.
 
@@ -23,3 +25,26 @@ def index(request):
     }
     # renderiname index.html, su duomenimis kintamąjame context
     return render(request, 'index.html', context=context)
+
+
+def authors(request):
+    authors = Author.objects.all()
+    # context = {
+    #     'authors': authors
+    # }
+    return render(request, 'authors.html', {'authors': authors})
+
+
+def author(request, author_id):
+    single_author = get_object_or_404(Author, pk=author_id)
+    return render(request, 'author.html', {'author': single_author})
+
+
+class BookListView(generic.ListView):
+    model = Book
+    template_name = 'book_list.html'
+
+
+class BookDetailView(generic.DetailView):
+    model = Book
+    template_name = 'book_detail.html'
