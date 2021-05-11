@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+from . import email_settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,6 +28,17 @@ SECRET_KEY = 'django-insecure-zfvm9!3yxfv)gdt)boyb!dv%+manuwse(l^ms-$=(mvk3c!lty
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+
+
+EMAIL_BACKEND = email_settings.EMAIL_BACKEND
+EMAIL_HOST = email_settings.EMAIL_HOST
+EMAIL_POST = email_settings.EMAIL_POST
+EMAIL_USE_TLS = email_settings.EMAIL_USE_TLS
+EMAIL_HOST_USER = email_settings.EMAIL_HOST_USER
+# el. pašto adresas iš kurio siųsite
+EMAIL_HOST_PASSWORD = email_settings.EMAIL_HOST_PASSWORD
+# slaptažodis
 
 
 # Application definition
@@ -132,3 +144,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'library/media')
 
 MEDIA_URL = '/media/'
 # print(MEDIA_ROOT) - nevenkite padebuginti, bus lengviau nepasiklysti django filesystem džiunglėse
+
+LOGIN_REDIRECT_URL = '/'

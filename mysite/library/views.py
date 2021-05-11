@@ -18,11 +18,16 @@ def index(request):
     # Kiek yra autorių
     num_authors = Author.objects.count()
 
+    # Papildome kintamuoju num_visits, įkeliame jį į kontekstą.
+    num_visits = request.session.get('num_visits', 1)
+    request.session['num_visits'] = num_visits + 1
+
     context = {
         'num_books': num_books,
         'num_instances': num_instances,
         'num_instances_available': num_instances_available,
         'num_authors': num_authors,
+        'num_visits': num_visits,
     }
     # renderiname index.html, su duomenimis kintamąjame context
     return render(request, 'index.html', context=context)
