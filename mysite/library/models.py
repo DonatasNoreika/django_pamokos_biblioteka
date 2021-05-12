@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from datetime import date
 from tinymce.models import HTMLField
 
+
 # Create your models here.
 
 class Genre(models.Model):
@@ -21,7 +22,8 @@ class Genre(models.Model):
 class Book(models.Model):
     """Modelis reprezentuoja knygą (bet ne specifinę knygos kopiją)"""
     title = models.CharField('Pavadinimas', max_length=200)
-    author = models.ForeignKey('Author', verbose_name='Autorius', on_delete=models.SET_NULL, null=True, related_name='books')
+    author = models.ForeignKey('Author', verbose_name='Autorius', on_delete=models.SET_NULL, null=True,
+                               related_name='books')
     summary = models.TextField('Aprašymas', max_length=1000, help_text='Trumpas knygos aprašymas')
     isbn = models.CharField('ISBN', max_length=13,
                             help_text='13 Simbolių <a href="https://www.isbn-international.org/content/what-isbn">ISBN kodas</a>')
@@ -98,7 +100,6 @@ class Author(models.Model):
         verbose_name = 'Autorius'
         verbose_name_plural = 'Autoriai'
 
-
     def get_absolute_url(self):
         """Returns the url to access a particular author instance."""
         return reverse('author-detail', args=[str(self.id)])
@@ -106,3 +107,10 @@ class Author(models.Model):
     def __str__(self):
         """String for representing the Model object."""
         return f'{self.last_name} {self.first_name}'
+
+
+class BookReview(models.Model):
+    book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True, blank=True)
+    reviewer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    content = models.TextField('Atsiliepimas', max_length=2000)
