@@ -44,7 +44,7 @@ EMAIL_HOST_PASSWORD = email_settings.EMAIL_HOST_PASSWORD
 # Application definition
 
 INSTALLED_APPS = [
-    'library',
+    'library.apps.LibraryConfig',
     'tinymce',
     'django.contrib.admin',
     'django.contrib.auth',
