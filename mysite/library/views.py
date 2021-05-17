@@ -13,6 +13,7 @@ from .forms import BookReviewForm, UserUpdateForm, ProfilisUpdateForm
 
 # Importuojame FormMixin, kurį naudosime BookDetailView klasėje
 from django.views.generic.edit import FormMixin
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -145,7 +146,6 @@ def register(request):
             return redirect('register')
     return render(request, 'register.html')
 
-from django.contrib.auth.decorators import login_required
 
 @login_required
 def profilis(request):
