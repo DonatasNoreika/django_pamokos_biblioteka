@@ -90,6 +90,10 @@ class BookInstance(models.Model):
         verbose_name = 'Knygos egzempliorius'
         verbose_name_plural = 'Knygų egzemplioriai'
 
+    def get_absolute_url(self):
+        """Nurodo konkretaus aprašymo galinį adresą"""
+        return reverse('book-detail', args=[str(self.id)])
+
     def __str__(self):
         return f'{self.id} ({self.book.title})'
 

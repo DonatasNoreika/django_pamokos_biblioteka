@@ -2,7 +2,12 @@ from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.http import HttpResponse
 from .models import Book, BookInstance, Author, BookReview
 from django.views.generic import (ListView,
-                                  DetailView)
+                                  DetailView,
+                                  CreateView,
+                                  UpdateView,
+                                  DeleteView)
+from django.contrib.auth.mixins import UserPassesTestMixin
+
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -113,6 +118,42 @@ class LoanedBooksByUserListView(LoginRequiredMixin, ListView):
 class BookByUserDetailView(LoginRequiredMixin, DetailView):
     model = BookInstance
     template_name = 'user_book.html'
+
+
+class BookByUserCreateView(LoginRequiredMixin, CreateView):
+    model = BookInstance
+    fields = ['book', 'due_back']
+    success_url = "/library/mybooks/"
+    template_name = 'user_book_form.html'
+
+    def form_valid(self, form):
+        form.instance.reader = self.request.user
+        return super().form_valid(form)
+
+class BookByUserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = BookInstance
+    fields = ['book', 'due_back']
+    success_url = "/library/mybooks/"
+    template_name = 'user_book_form.html'
+
+    def form_valid(self, form):
+        form.instance.reader = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        book = self.get_object()
+        return self.request.user == book.reader
+
+
+class BookByUserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = BookInstance
+    success_url = "/library/mybooks/"
+    template_name = 'user_book_delete.html'
+
+    def test_func(self):
+        book = self.get_object()
+        return self.request.user == book.reader
+
 
 def search(request):
     """
