@@ -48,6 +48,15 @@ class Book(models.Model):
     display_genre.short_description = _('Genre')
 
 
+    def save(self):
+        super().save()
+        img = Image.open(self.cover.path)
+        if img.height > 300 or img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size)
+            img.save(self.cover.path)
+
+
 class BookInstance(models.Model):
     """Modelis, aprašantis konkrečios knygos kopijos būseną"""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unikalus ID knygos kopijai')
