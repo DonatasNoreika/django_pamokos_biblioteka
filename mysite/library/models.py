@@ -48,8 +48,8 @@ class Book(models.Model):
     display_genre.short_description = _('Genre')
 
 
-    def save(self):
-        super().save()
+    def save(self, **kwargs):
+        super().save(**kwargs)
         img = Image.open(self.cover.path)
         if img.height > 300 or img.width > 300:
             output_size = (300, 300)
@@ -137,8 +137,8 @@ class Profilis(models.Model):
     def __str__(self):
         return f"{self.user.username} profilis"
 
-    def save(self):
-        super().save()
+    def save(self, **kwargs):
+        super().save(**kwargs)
         img = Image.open(self.nuotrauka.path)
         if img.height > 300 or img.width > 300:
             output_size = (300, 300)
