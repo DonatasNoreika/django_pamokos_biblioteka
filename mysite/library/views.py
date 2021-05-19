@@ -123,7 +123,7 @@ class BookByUserDetailView(LoginRequiredMixin, DetailView):
 class BookByUserCreateView(LoginRequiredMixin, CreateView):
     model = BookInstance
     fields = ['book', 'due_back']
-    success_url = "/library/mybooks/"
+    # success_url = "/library/mybooks/"
     template_name = 'user_book_form.html'
 
     def form_valid(self, form):
@@ -133,7 +133,7 @@ class BookByUserCreateView(LoginRequiredMixin, CreateView):
 class BookByUserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = BookInstance
     fields = ['book', 'due_back']
-    success_url = "/library/mybooks/"
+    # success_url = "/library/mybooks/"
     template_name = 'user_book_form.html'
 
     def form_valid(self, form):
