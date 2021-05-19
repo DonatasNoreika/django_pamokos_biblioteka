@@ -189,7 +189,7 @@ def register(request):
                 else:
                     # jeigu viskas tvarkoje, sukuriame naują vartotoją
                     User.objects.create_user(username=username, email=email, password=password)
-                    return redirect(request.GET.get('next'))
+                    return redirect('login')
         else:
             messages.error(request, _('Passwords do not match!'))
             return redirect('register')
